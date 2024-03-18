@@ -1,0 +1,8 @@
+# ninja log v5
+2	480	7324810951368292	CMakeFiles/lexical.dir/lexical1.cpp.obj	926a9633f1bc35aa
+0	168	7324812306153768	build.ninja	2c728722519bfbe0
+1143	1337	7324812239351963	lexical.exe	85c2c08add4327a9
+2	1142	7324812237417246	CMakeFiles/lexical.dir/lexical_analyser1.cpp.obj	a4ca9dc346be95fc
+1	178	7324812306153768	build.ninja	2c728722519bfbe0
+3	546	7324812825608603	CMakeFiles/lexical.dir/lexical1.cpp.obj	926a9633f1bc35aa
+546	754	7324812827651488	lexical.exe	85c2c08add4327a9
