@@ -18,27 +18,18 @@
 #include <iostream>
 #include<string_view>
 #include <fstream>
-#include <unordered_map>
+#include <map>
 #include <vector>
+#include "analyse_res.h"
 
 using namespace std;
 
-enum language{
-    C,CPP,JAVA,DART
-};
-
-enum KindCode{
-    constant_num,constant_string,key_word,not_decide
-};
-
-struct word{
-    int code;//内部码值
-    int p;// 常量表指针
-    word(int c,int p):code(c),p(p){}
-};
-
 class LexicalAnalyser {
 private:
+    /*错误信息描述*/
+    //string*multi_conmment_not_termin= new string("Unterminated /* comment");
+    //string
+
     /*解析文本要用的变量*/
     language lang;
     char*buffer;
@@ -46,6 +37,7 @@ private:
     string_view content;
     int cur;
     char c;
+    char c_peek;
     string token;
 
     /*内部码值定义*/
@@ -53,23 +45,23 @@ private:
     int const key_word_code=101;
     int const constant_num_code=102;
     int const constant_string_code=103;
+    int const constant_char_code=104;
 
     /*保留字*/
     int reserved_len;
     string*reserved_words;
-    unordered_map<string,int>*reserved_map;/*key: 保留字，value:其内部码值*/
+    map<string,int>*reserved_map;/*key: 保留字，value:其内部码值*/
     /*标识符表*/
     vector<string>*key_words;
-    /*常数表*/
-    vector<int>*constant_nums;
     /*字符串表*/
     vector<string>*string_table;
     /*符号表*//*设置此字段位置建立符号与码值的映射*/
     int symbol_len;
     string*symbol_list;
-    unordered_map<string,int>*symbol_map;
+    map<string,int>*symbol_map;
 
     vector<word>*lexical_res;
+    vector<error_info>* error_res;
 
     /*私有函数*/
     void initForLanguage();
@@ -80,39 +72,36 @@ private:
 
     void readCodeFile(const string&path);
     void getC();
+    void peekC();
     void getC_ExceptWhiteSpace();
     void retract();
     void concatToken();
+    void concatAndAddSymbol();
+    void retractAndAddSymbol();
 
     int referKeyWord();
-    int referConstantNum();
     int referString();
 
     void autoAddKeyWord();
     void autoAddConstantNum();
     void autoAddString();
     void autoAddSymbol();
+    void autoAddChar(bool escape);
+    void autoAddError(const int&pos,const int&desc_p);
+    // 此方法从注释的第一个字符开始，直至c指向注释之后的第一个字符，这里注释的第一个字符开始就是“ ”;
+    void skipSingleLineComment();
+    // 此方法从注释的第一个字符开始，直至c指向注释之后的第一个字符，这里注释的第一个字符开始就是“ ”;
+    void skipMultiLineComment();
 
     void resolveKeyOrConstant(KindCode);// 解析标识符或常数或字符串
     int recognizeReserved();//识别保留字
 
-    void analyseSingle();
-    void analyseForSymbol();
-
-    void printReferTable(int code);
-    vector<int>* getConstantNumTable(){ return constant_nums;}
-    vector<string>* getKeyWordTable(){ return key_words;}
-    vector<string>* getStringTable(){return string_table;}
+    void CPP_analyseSingle();
+    void CPP_analyseForSymbol();
 public:
     //构造函数
     explicit LexicalAnalyser(language l);
-    static bool whiteSpace(const char& ch);
-    static bool letter(const char& ch);
-    static bool digit(const char&ch);
-    static bool underline(const char&ch);
-    static bool quote(const char&ch);
-    vector<word>* analyse(const string& filepath);
-    void printResult();
+    AnalyseResult analyse(const string& filepath);
     //析构函数
     ~LexicalAnalyser();
 };

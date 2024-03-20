@@ -1,3 +1,3 @@
-C:/Users/LSK/CLionProjects/lexical/cmake-build-debug/CMakeFiles/lexical.dir
-C:/Users/LSK/CLionProjects/lexical/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/LSK/CLionProjects/lexical/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/LSK/CLionProjects/lexical_original/cmake-build-debug/CMakeFiles/lexical.dir
+C:/Users/LSK/CLionProjects/lexical_original/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/LSK/CLionProjects/lexical_original/cmake-build-debug/CMakeFiles/rebuild_cache.dir
